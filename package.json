@@ -1,7 +1,7 @@
 {
   "name": "hypercore-swarm-stream",
-  "version": "0.1.0",
-  "description": "streams of swarming hypercore feeds",
+  "version": "0.1.1",
+  "description": "create a readable and/or writable stream that replicates data on a p2p swarm",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"

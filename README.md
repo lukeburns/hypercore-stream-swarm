@@ -8,8 +8,6 @@ npm install hypercore-swarm-stream
 
 ## Usage 
 
-### Create stream from a secret key
-
 ```js
 var swarmStream = require('hypercore-swarm-stream')
 var publisher = swarmStream(keys.secretKey, { exit: true })
