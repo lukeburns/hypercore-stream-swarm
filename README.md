@@ -9,17 +9,16 @@ npm install hypercore-swarm-stream
 ## Usage 
 
 ```js
-var swarmStream = require('hypercore-swarm-stream')
-var publisher = swarmStream(keys.secretKey, { exit: true })
-var consumer = swarmStream(keys.key, { exit: true })
+var swarmStream = require('./')
+var signatures = require('sodium-signatures')
 
-var block0 = 'hello'
+var keys = signatures.keyPair()
+var publisher = swarmStream(keys.secretKey)
+var consumer = swarmStream(keys.publicKey)
+publisher.write('hello')
 consumer.once('data', function (block) {
-  t.equal(block.toString(), block0, 'retrieved data over swarm')
+  console.log(block) // hello
 })
-
-publisher.write(block0)
-publisher.end()
 ```
 
 ## API
@@ -28,15 +27,13 @@ publisher.end()
 
 Same as [hypercore-create-stream](https://github.com/lukeburns/hypercore-create-stream) with an additional `exit` option, which closes the swarm when the stream ends.
 
-`key` is either a public or private key. If it is a public key, then the stream will be readable only. If it is a private key, then the stream will be both readable and writable. If it is undefined, then a new feed is made and its public and private keys are given by `stream.key` and `stream.secretKey`.
+`key` is either a public or private key. If it is a public key, then the stream will be readable only. If it is a private key, then the stream will be both readable and writable. If it is undefined, then a new feed is created with public and private keys `stream.key` and `stream.secretKey`.
 
 All `options` are optional.
 
 ```js
 {
   db: leveldb instance,
-  key: buffer,
-  secretKey: buffer,
   static: boolean,
   storage: object,
   tail: boolean,
