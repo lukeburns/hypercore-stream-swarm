@@ -6,27 +6,35 @@ module.exports = function swarmStream (key, opts) {
 
   var stream = createStream(key, opts)
 
-  var writable = !!stream.write
+  var swarm
+  if (!opts.static || !stream.write) {
+    swarm = createSwarm(stream.feed)
+    bind(stream, swarm)
 
-  stream.swarm = createSwarm(stream.feed)
-  stream.on('end', function () {
-    if (opts.exit && stream.swarm) stream.swarm.node.close()
-    stream.emit('exit')
-  })
-
-  if (writable) {
-    if (opts.static) {
-      stream.on('finish', function () {
-        if (stream.swarm) stream.swarm.node.close()
-        stream.emit('exit')
+    if (opts.exit) {
+      stream.on('end', function () {
+        swarm.node.close()
       })
-    } else {
       stream.on('finish', function () {
-        if (opts.exit && stream.swarm) stream.swarm.node.close()
-        stream.emit('exit')
+        swarm.node.close()
       })
     }
+  } else {
+    stream.on('finish', function () {
+      if (!opts.exit) {
+        swarm = createSwarm(stream.feed)
+        bind(stream, swarm)
+      }
+    })
   }
 
   return stream
+}
+
+function bind (stream, swarm) {
+  swarm.on('error', stream.emit.bind(stream, 'error'))
+  swarm.on('connection', stream.emit.bind(stream, 'connection'))
+  swarm.on('close', stream.emit.bind(stream, 'exit'))
+  stream.swarm = swarm
+  stream.exit = swarm.node.close.bind(stream.swarm.node)
 }
