@@ -9,7 +9,7 @@
   "author": "Luke Burns <lukemburns@gmail.com> (http://lukeburns.com/)",
   "license": "MIT",
   "dependencies": {
-    "hypercore-create-stream": "^0.1.2",
+    "hypercore-create-stream": "^0.1.3",
     "hyperdrive-archive-swarm": "^3.0.1"
   },
   "devDependencies": {
