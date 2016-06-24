@@ -47,13 +47,13 @@ All `options` are optional.
 
 The hyperdrive swarm instance.
 
-#### `stream.exit`
+#### `stream.close(callback)`
 
 Leave swarm.
 
-#### `stream.on('exit')`
+#### `stream.on('close')`
 
-Event emitted upon exiting the swarm.
+Event emitted upon closing the swarm.
 
 #### `stream.on('connection', connection, info)`
 

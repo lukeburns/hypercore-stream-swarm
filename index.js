@@ -1,4 +1,4 @@
-var createSwarm = require('hyperdrive-archive-swarm')
+var createSwarm = require('../hyperdrive-archive-swarm')
 var createStream = require('hypercore-create-stream')
 
 module.exports = function swarmStream (key, opts) {
@@ -9,21 +9,21 @@ module.exports = function swarmStream (key, opts) {
   var swarm
   if (!opts.static || !stream.write) {
     swarm = createSwarm(stream.feed)
-    bind(stream, swarm)
+    patch(stream, swarm)
 
     if (opts.exit) {
       stream.on('end', function () {
-        swarm.node.close()
+        swarm.close()
       })
       stream.on('finish', function () {
-        swarm.node.close()
+        swarm.close()
       })
     }
   } else {
     stream.on('finish', function () {
       if (!opts.exit) {
         swarm = createSwarm(stream.feed)
-        bind(stream, swarm)
+        patch(stream, swarm)
       }
     })
   }
@@ -31,10 +31,11 @@ module.exports = function swarmStream (key, opts) {
   return stream
 }
 
-function bind (stream, swarm) {
+function patch (stream, swarm) {
   swarm.on('error', stream.emit.bind(stream, 'error'))
   swarm.on('connection', stream.emit.bind(stream, 'connection'))
-  swarm.on('close', stream.emit.bind(stream, 'exit'))
+  swarm.on('close', stream.emit.bind(stream, 'close'))
+
   stream.swarm = swarm
-  stream.exit = swarm.node.close.bind(stream.swarm.node)
+  stream.close = swarm.close.bind(swarm)
 }

@@ -16,8 +16,8 @@ tape('publishes on swarm', function (t) {
 
   consumer.once('data', function (block) {
     t.equal(block.toString(), block0, 'retrieved data over swarm')
-    publisher.exit()
-    consumer.exit()
+    publisher.close()
+    consumer.close()
   })
 
   publisher.write(block0)
@@ -33,7 +33,7 @@ tape('publishes static feed on swarm', function (t) {
   var consumer = swarmStream(keys.key, { exit: true })
   consumer.once('data', function (block) {
     t.equal(block.toString(), block0, 'retrieved data over swarm')
-    publisher.exit()
-    consumer.exit()
+    publisher.close()
+    consumer.close()
   })
 })
