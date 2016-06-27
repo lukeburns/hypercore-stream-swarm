@@ -25,7 +25,7 @@ consumer.once('data', function (block) {
 
 #### `var stream = swarmStream([key], [options])`
 
-Same as [hypercore-create-stream](https://github.com/lukeburns/hypercore-create-stream) with an additional `exit` option, which closes the swarm when the stream ends.
+Same as [hypercore-create-stream](https://github.com/lukeburns/hypercore-create-stream) with an additional `close` option, which closes the swarm when the stream ends.
 
 `key` is either a public or private key. If it is a public key, then the stream will be readable only. If it is a private key, then the stream will be both readable and writable. If it is undefined, then a new feed is created with public and private keys `stream.key` and `stream.secretKey`.
 
@@ -39,7 +39,7 @@ All `options` are optional.
   tail: boolean,
   start: integer,
   end: integer,
-  exit: boolean
+  close: boolean
 }
 ```
 
