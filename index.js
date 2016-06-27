@@ -1,4 +1,4 @@
-var createSwarm = require('../hyperdrive-archive-swarm')
+var createSwarm = require('hyperdrive-archive-swarm')
 var createStream = require('hypercore-create-stream')
 
 module.exports = function swarmStream (key, opts) {
