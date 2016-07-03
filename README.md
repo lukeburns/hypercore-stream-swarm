@@ -1,20 +1,20 @@
-# hypercore-swarm-stream
+# hypercore-stream-swarm
 
-Create a readable and/or writable stream of a hypercore feed on a [hyperdrive-archive-swarm](https://github.com/karissa/hyperdrive-archive-swarm).
+Create a hypercore stream from a public or private key that replicates across a [hyperdrive-archive-swarm](https://github.com/karissa/hyperdrive-archive-swarm).
 
 ```
-npm install hypercore-swarm-stream
+npm install hypercore-stream-swarm
 ```
 
 ## Usage 
 
 ```js
-var swarmStream = require('./')
+var createStream = require('hypercore-stream-swarm')
 var signatures = require('sodium-signatures')
 
 var keys = signatures.keyPair()
-var publisher = swarmStream(keys.secretKey)
-var consumer = swarmStream(keys.publicKey)
+var publisher = createStream(keys.secretKey)
+var consumer = createStream(keys.publicKey)
 publisher.write('hello')
 consumer.once('data', function (block) {
   console.log(block) // hello
@@ -23,9 +23,9 @@ consumer.once('data', function (block) {
 
 ## API
 
-#### `var stream = swarmStream([key], [options])`
+#### `var stream = createStream([key], [options])`
 
-Same as [hypercore-create-stream](https://github.com/lukeburns/hypercore-create-stream) with an additional `close` option, which closes the swarm when the stream ends.
+Same as [hypercore-stream](https://github.com/lukeburns/hypercore-stream) with an additional `close` option, which closes the swarm when the stream ends.
 
 `key` is either a public or private key. If it is a public key, then the stream will be readable only. If it is a private key, then the stream will be both readable and writable. If it is undefined, then a new feed is created with public and private keys `stream.key` and `stream.secretKey`.
 
