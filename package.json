@@ -1,6 +1,6 @@
 {
   "name": "hypercore-stream-swarm",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "create a hypercore stream from a public or private key that replicates across a swarm",
   "main": "index.js",
   "scripts": {
