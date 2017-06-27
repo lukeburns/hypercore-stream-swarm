@@ -1,4 +1,4 @@
-var createSwarm = require('hyperdrive-archive-swarm')
+var createSwarm = require('hyperdiscovery')
 var createStream = require('hypercore-stream')
 
 module.exports = function (key, opts) {
@@ -8,7 +8,7 @@ module.exports = function (key, opts) {
 
   var swarm
   if (!opts.static || !stream.write) {
-    swarm = createSwarm(stream.feed)
+    swarm = createSwarm(stream.feed, { port: null })
     patch(stream, swarm)
 
     if (opts.exit) {
@@ -22,7 +22,7 @@ module.exports = function (key, opts) {
   } else {
     stream.on('finish', function () {
       if (!opts.exit) {
-        swarm = createSwarm(stream.feed)
+        swarm = createSwarm(stream.feed, { port: null })
         patch(stream, swarm)
       }
     })
